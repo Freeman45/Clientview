@@ -3,66 +3,58 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Apex Support Chat</title>
+<title>Client Review Page</title>
 <style>
-body { font-family: 'Courier New', monospace; background:#0a0a0a; color:#fff; display:flex; justify-content:center; align-items:center; height:100vh; margin:0;}
-.container { background: rgba(10,10,10,0.9); padding:40px; border-radius:15px; width:400px; text-align:center; border:2px solid #bc13fe;}
-h1 { color:#bc13fe; margin-bottom:20px; }
-input, textarea { width:100%; padding:12px; margin-bottom:15px; border-radius:5px; border:1px solid #bc13fe; background:#1a1a1a; color:#fff; font-family:inherit; }
-button { padding:12px 20px; border-radius:5px; border:2px solid #bc13fe; background:transparent; color:#bc13fe; cursor:pointer; font-weight:bold; }
-button:hover { background:#bc13fe; color:#000; }
-a.reply-link { display:block; margin-top:20px; color:#ffcc00; word-break:break-all; }
+body { font-family: Arial, sans-serif; background: #111; color: #fff; display: flex; justify-content: center; align-items: center; height: 100vh; }
+.container { background: #1a1a1a; padding: 30px; border-radius: 10px; width: 400px; text-align: center; }
+input, textarea, button { width: 100%; margin-bottom: 15px; padding: 10px; border-radius: 5px; border: 1px solid #bc13fe; background: #222; color: #fff; }
+button { cursor: pointer; background: #bc13fe; border: none; }
+#replyDisplay { margin-top: 15px; color: #ffcc00; font-weight: bold; }
 </style>
 </head>
 <body>
 <div class="container">
-  <h1>Apex Support Chat</h1>
-  
-  <!-- Step 1: Name -->
-  <div id="step1">
-    <input type="text" id="aliasInput" placeholder="Enter your name or alias">
-    <button onclick="nextStep()">Continue</button>
-  </div>
-
-  <!-- Step 2: Message -->
-  <div id="step2" style="display:none;">
-    <textarea id="messageInput" rows="5" placeholder="Type your message here"></textarea>
-    <button onclick="sendMessage()">Send Message</button>
-    <a id="replyLink" class="reply-link" href="#" target="_blank" style="display:none;">Your reply link</a>
-  </div>
+<h2>Send a Message</h2>
+<input type="text" id="alias" placeholder="Your Name (Alias)">
+<textarea id="message" placeholder="Type your message..." rows="4"></textarea>
+<button onclick="sendMessage()">Send Message</button>
+<p id="replyDisplay">Reply will appear here if available</p>
 </div>
 
 <script>
-const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyvD5r3LE94iIFVUI8A9l_IaH-oLL7DXxirpKlQ1Ba4jIb0Lz6rdV649Cevzl4wd2UR/exec';
-let alias = '';
-let messageId = '';
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyvD5r3LE94iIFVUI8A9l_IaH-oLL7DXxirpKlQ1Ba4jIb0Lz6rdV649Cevzl4wd2UR/exec";
 
-function nextStep() {
-  const input = document.getElementById('aliasInput').value.trim();
-  alias = input || 'Anonymous';
-  document.getElementById('step1').style.display = 'none';
-  document.getElementById('step2').style.display = 'block';
-  // Generate unique MessageID
-  messageId = 'MSG-' + Date.now() + '-' + Math.floor(Math.random()*10000);
+function generateId() {
+  return 'msg_' + Date.now() + '_' + Math.floor(Math.random()*1000);
 }
 
-function sendMessage() {
-  const message = document.getElementById('messageInput').value.trim();
-  if(!message) { alert('Please type a message.'); return; }
+async function sendMessage() {
+  const alias = document.getElementById('alias').value.trim();
+  const message = document.getElementById('message').value.trim();
+  if(!alias || !message){ alert("Fill both fields"); return; }
 
-  const params = new URLSearchParams({ messageId, alias, message });
-  fetch(WEB_APP_URL, { method:'POST', body: params })
-    .then(() => {
-      alert('Message sent!');
-      // Show reply link
-      const link = WEB_APP_URL + '?messageId=' + encodeURIComponent(messageId);
-      const replyLink = document.getElementById('replyLink');
-      replyLink.href = link;
-      replyLink.style.display = 'block';
-      replyLink.textContent = 'Check reply here: ' + link;
-      document.getElementById('messageInput').value = '';
-    })
-    .catch(err => { alert('Error sending message: ' + err); });
+  const messageId = generateId();
+
+  // POST message
+  await fetch(WEB_APP_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({ messageId, alias, message })
+  });
+
+  document.getElementById('message').value = "";
+  alert("Message sent! Your unique ID: " + messageId);
+
+  // Poll for reply every 5 seconds
+  const replyDisplay = document.getElementById('replyDisplay');
+  const interval = setInterval(async () => {
+    const res = await fetch(WEB_APP_URL + "?messageId=" + messageId);
+    const data = await res.json();
+    if(data.Reply && data.Reply !== ""){
+      replyDisplay.textContent = "Reply: " + data.Reply;
+      clearInterval(interval);
+    }
+  }, 5000);
 }
 </script>
 </body>
