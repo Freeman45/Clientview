@@ -1,411 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Send a Message</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-
-    .container {
-      background: white;
-      padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-      width: 100%;
-      max-width: 600px;
-    }
-
-    .header {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-
-    h1 {
-      color: #333;
-      margin-bottom: 8px;
-      font-size: 1.8rem;
-    }
-
-    .subtitle {
-      color: #666;
-      font-size: 0.95rem;
-    }
-
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    label {
-      display: block;
-      font-weight: 600;
-      color: #333;
-      margin-bottom: 8px;
-    }
-
-    input[type="text"],
-    textarea {
-      width: 100%;
-      padding: 12px;
-      border: 2px solid #ddd;
-      border-radius: 8px;
-      font-family: inherit;
-      font-size: 0.95rem;
-      transition: all 0.2s ease;
-    }
-
-    input[type="text"]:focus,
-    textarea:focus {
-      outline: none;
-      border-color: #667eea;
-      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 120px;
-    }
-
-    .button-group {
-      display: flex;
-      gap: 10px;
-      margin-top: 25px;
-    }
-
-    button {
-      flex: 1;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .btn-submit {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-    }
-
-    .btn-submit:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-    }
-
-    .btn-submit:disabled {
-      background: #ccc;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .btn-clear {
-      background: #f0f0f0;
-      color: #333;
-      border: 2px solid #ddd;
-    }
-
-    .btn-clear:hover {
-      background: #e8e8e8;
-    }
-
-    .status-section {
-      margin-top: 30px;
-      padding-top: 30px;
-      border-top: 2px solid #eee;
-      display: none;
-    }
-
-    .status-section.show {
-      display: block;
-    }
-
-    .status-title {
-      font-weight: 600;
-      color: #333;
-      margin-bottom: 15px;
-      font-size: 1.1rem;
-    }
-
-    .message-id-display {
-      background: #f5f5f5;
-      border-left: 4px solid #667eea;
-      padding: 12px;
-      border-radius: 6px;
-      font-family: monospace;
-      font-size: 0.85rem;
-      color: #333;
-      word-break: break-all;
-      margin-bottom: 15px;
-    }
-
-    .message-id-label {
-      font-size: 0.8rem;
-      color: #999;
-      margin-bottom: 4px;
-    }
-
-    .reply-box {
-      background: #f0fdf4;
-      border: 2px solid #86efac;
-      border-radius: 8px;
-      padding: 16px;
-      margin-top: 12px;
-    }
-
-    .reply-box.empty {
-      background: #f5f5f5;
-      border-color: #ddd;
-    }
-
-    .reply-label {
-      font-weight: 600;
-      color: #10b981;
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .reply-label.empty {
-      color: #999;
-    }
-
-    .reply-text {
-      color: #333;
-      line-height: 1.6;
-      font-size: 0.95rem;
-    }
-
-    .loading-spinner {
-      display: inline-block;
-      width: 14px;
-      height: 14px;
-      border: 2px solid #f0f0f0;
-      border-top-color: #667eea;
-      border-radius: 50%;
-      animation: spin 0.6s linear infinite;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    .info-box {
-      background: #eff6ff;
-      border-left: 4px solid #3b82f6;
-      padding: 12px;
-      border-radius: 6px;
-      font-size: 0.85rem;
-      color: #1e40af;
-      margin-top: 15px;
-    }
-
-    .success-message {
-      background: #f0fdf4;
-      border: 2px solid #86efac;
-      color: #166534;
-      padding: 12px 16px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      display: none;
-    }
-
-    .success-message.show {
-      display: block;
-      animation: slideDown 0.3s ease;
-    }
-
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-  </style>
-</head>
+<html>
+<head><title>Customer Contact</title></head>
 <body>
-  <div class="container">
-    <div class="header">
-      <h1>✉️ Send a Message</h1>
-      <p class="subtitle">Get in touch with us</p>
+    <h2>Message Us</h2>
+    <div id="formSection">
+        <input type="text" id="alias" placeholder="Your Name"><br>
+        <textarea id="msg" placeholder="How can we help?"></textarea><br>
+        <button onclick="sendMsg()">Send Message</button>
     </div>
 
-    <div class="success-message" id="successMessage">
-      ✓ Message sent! Scroll down to check for replies.
+    <div id="statusSection" style="display:none; border:1px solid #ccc; padding:10px; margin-top:10px;">
+        <p><strong>Message ID:</strong> <span id="displayId"></span></p>
+        <p><strong>Your Message:</strong> <span id="displayMsg"></span></p>
+        <p><strong>Admin Reply:</strong> <span id="replyText" style="color:blue;">Waiting for admin...</span></p>
     </div>
 
-    <form id="messageForm" onsubmit="handleSubmit(event)">
-      <div class="form-group">
-        <label for="alias">Your Name</label>
-        <input type="text" id="alias" placeholder="e.g., John" required maxlength="50">
-      </div>
+    <script>
+        const API = "YOUR_WEB_APP_URL"; // PASTE YOUR URL HERE
+        let currentId = null;
 
-      <div class="form-group">
-        <label for="message">Your Message</label>
-        <textarea id="message" placeholder="Write your message..." required maxlength="1000"></textarea>
-        <small style="color: #999; margin-top: 4px; display: block;">
-          <span id="charCount">0</span>/1000 characters
-        </small>
-      </div>
+        async function sendMsg() {
+            currentId = "msg_" + Date.now() + "_" + Math.floor(Math.random()*1000);
+            const data = {
+                action: "addMessage",
+                messageId: currentId,
+                alias: document.getElementById('alias').value,
+                message: document.getElementById('msg').value
+            };
 
-      <div class="button-group">
-        <button type="submit" class="btn-submit" id="submitBtn">Send Message</button>
-        <button type="reset" class="btn-clear">Clear</button>
-      </div>
-    </form>
-
-    <div class="status-section" id="statusSection">
-      <div class="status-title">📌 Message Submitted</div>
-      <div>
-        <div class="message-id-label">Your Message ID:</div>
-        <div class="message-id-display" id="messageIdDisplay"></div>
-      </div>
-      <div class="reply-box empty" id="replyBox">
-        <div class="reply-label empty">
-          <span class="loading-spinner"></span>
-          Waiting for reply...
-        </div>
-        <div class="reply-text">
-          The admin will review your message and respond soon.
-        </div>
-      </div>
-      <div class="info-box">
-        <strong>💡 Tip:</strong> Save your Message ID to check replies later.
-      </div>
-    </div>
-  </div>
-
-  <script>
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyvD5r3LE94iIFVUI8A9l_IaH-oLL7DXxirpKlQ1Ba4jIb0Lz6rdV649Cevzl4wd2UR/exec";
-    let currentMessageId = null;
-    let replyCheckInterval = null;
-
-    function generateMessageId() {
-      return 'msg_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
-    }
-
-    async function handleSubmit(event) {
-      event.preventDefault();
-      const alias = document.getElementById('alias').value.trim();
-      const message = document.getElementById('message').value.trim();
-
-      if (!alias || !message) {
-        alert('Please fill in all fields');
-        return;
-      }
-
-      const messageId = generateMessageId();
-      const submitBtn = document.getElementById('submitBtn');
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Sending...';
-
-      try {
-        const response = await fetch(WEB_APP_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams({
-            action: 'addMessage',
-            messageId: messageId,
-            alias: alias,
-            message: message
-          })
-        });
-
-        const result = await response.json();
-
-        if (result.status === 'success') {
-          showSuccess();
-          document.getElementById('messageForm').style.display = 'none';
-          showStatusSection(messageId);
-          startReplyPolling(messageId);
-        } else {
-          throw new Error(result.message || 'Unknown error');
+            await fetch(API, { method: "POST", body: JSON.stringify(data) });
+            document.getElementById('formSection').style.display = 'none';
+            document.getElementById('statusSection').style.display = 'block';
+            document.getElementById('displayId').innerText = currentId;
+            document.getElementById('displayMsg').innerText = data.message;
+            
+            setInterval(checkReply, 5000); // Poll every 5s
         }
-      } catch (error) {
-        console.error('Error:', error);
-        alert(`Failed: ${error.message}`);
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Send Message';
-      }
-    }
 
-    function showSuccess() {
-      const msg = document.getElementById('successMessage');
-      msg.classList.add('show');
-      setTimeout(() => msg.classList.remove('show'), 4000);
-    }
-
-    function showStatusSection(messageId) {
-      currentMessageId = messageId;
-      document.getElementById('messageIdDisplay').textContent = messageId;
-      document.getElementById('statusSection').classList.add('show');
-    }
-
-    function startReplyPolling(messageId) {
-      if (replyCheckInterval) clearInterval(replyCheckInterval);
-      checkForReply(messageId);
-      replyCheckInterval = setInterval(() => checkForReply(messageId), 5000);
-    }
-
-    async function checkForReply(messageId) {
-      try {
-        const response = await fetch(WEB_APP_URL + '?messageId=' + encodeURIComponent(messageId));
-        const data = await response.json();
-        
-        if (data && data.Reply && data.Reply.trim() !== '') {
-          displayReply(data.Reply);
-          if (replyCheckInterval) clearInterval(replyCheckInterval);
+        async function checkReply() {
+            const res = await fetch(`${API}?messageId=${currentId}`);
+            const json = await res.json();
+            if (json.length > 0 && json[0].reply) {
+                document.getElementById('replyText').innerText = json[0].reply;
+                document.getElementById('replyText').style.color = "green";
+            }
         }
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    }
-
-    function displayReply(replyText) {
-      const replyBox = document.getElementById('replyBox');
-      replyBox.className = 'reply-box';
-      replyBox.innerHTML = `
-        <div class="reply-label">✓ Reply from Admin</div>
-        <div class="reply-text">${escapeHtml(replyText)}</div>
-      `;
-    }
-
-    function escapeHtml(text) {
-      const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
-      return text.replace(/[&<>"']/g, m => map[m]);
-    }
-
-    document.getElementById('message').addEventListener('input', (e) => {
-      document.getElementById('charCount').textContent = e.target.value.length;
-    });
-
-    // Check if returning with messageId
-    const urlParams = new URLSearchParams(window.location.search);
-    const checkMessageId = urlParams.get('messageId');
-    if (checkMessageId) {
-      showStatusSection(checkMessageId);
-      startReplyPolling(checkMessageId);
-      document.getElementById('messageForm').style.display = 'none';
-    }
-  </script>
+    </script>
 </body>
 </html>
